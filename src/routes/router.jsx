@@ -1,5 +1,7 @@
-const { createBrowserRouter } = require("react-router");
-const { default: RootLayout } = require("../Layouts/RootLayout");
+import { createBrowserRouter } from "react-router";
+import RootLayout from "../Layouts/RootLayout";
+import Home from "../pages/Home/Home";
+
 
 const router = createBrowserRouter([
     {
@@ -7,8 +9,10 @@ const router = createBrowserRouter([
         Component: RootLayout ,
         children:[
             {
-                
+               index:true,
+               Component:Home
             }
         ]
     }
 ])
+export default router
