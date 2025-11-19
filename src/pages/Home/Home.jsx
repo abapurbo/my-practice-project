@@ -3,7 +3,7 @@ import Banner from "../../components/Banner/Banner";
 
 export default function Home() {
     return (
-        <div className="border-3 border-red-600">
+        <div>
             <Banner></Banner>
         </div>
     )
