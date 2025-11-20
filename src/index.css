@@ -1,23 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
-
-
-/* enable DaisyUI */
 @plugin "daisyui" {
-  themes: light --default;
-}
+   themes: light --default;
+};
 
-/* your custom theme */
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-
-  --color-primary: red;
-  --color-secondary: teal;
-
-  /* REQUIRED for DaisyUI v5 */
-  --color-base-100: #ffffff;
-  --color-base-content: #000000;
+  --color-primary: #CAEB68;
+  --color-secondary: #03373D;
 }
 
 
