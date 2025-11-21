@@ -1,16 +1,16 @@
 import React from "react";
 
-export default function Card() {
+export default function TestimonialCard({ card }) {
+console.log(card)
+    const { user_photoURL, review } = card
     return (
-        <div className="max-w-sm bg-pink-100 rounded-2xl p-6">
+        <div className="max-w-sm bg-white shadow-2xl rounded-2xl p-6">
             {/* Quote Icon */}
-            <div className="text-gray-400 text-4xl mb-3">&ldquo;</div>
+            <div className="text-green-700 text-4xl mb-3">&ldquo;</div>
 
             {/* Message */}
-            <p className="text-gray-700 leading-relaxed mb-6">
-                A posture corrector works by providing support and gentle alignment
-                to your shoulders, back, and spine, encouraging you to maintain proper
-                posture throughout the day.
+            <p className="text-gray-700 text-center mb-6">
+               {review}
             </p>
 
             {/* Divider */}
@@ -19,7 +19,9 @@ export default function Card() {
             {/* Profile */}
             <div className="flex items-center gap-3">
                 {/* Avatar */}
-                <div className="w-12 h-12 bg-[#0F4C49] rounded-full"></div>
+                <div className="w-12 h-12 bg-[#0F4C49] rounded-full">
+                    <img className="rounded-full" src={user_photoURL} alt="" />
+                </div>
 
                 <div>
                     <h3 className="text-[#0D1F23] font-bold text-lg">Awlad Hossin</h3>

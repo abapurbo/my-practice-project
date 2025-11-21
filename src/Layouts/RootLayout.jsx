@@ -9,7 +9,7 @@ export default function RootLayout() {
       <div>
         <Navbar></Navbar>
       </div>
-      <div>
+      <div className="p-10">
         <Outlet></Outlet>
       </div>
       <div>
