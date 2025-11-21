@@ -20,9 +20,15 @@ export default function Login() {
                             <input type="email" className="input" {...register('email', { required: true })} placeholder="Email" />
                             <label className="label">Password</label>
                             <input type="password" className="input" placeholder="Password"
-                                {...register('password',
-                                    { required: true },
-                                    {pattern:'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$'}
+                                {
+                                ...register('password',
+                                    {
+                                        required: true,
+                                        pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/,
+                                        minLength: 6
+
+                                    }
+
 
                                 )}
                             />
