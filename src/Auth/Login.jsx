@@ -1,8 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router";
 
 export default function Login() {
-    const { register } = useForm()
+    const { register, handleSubmit } = useForm()
     const handleLoginForm = (data) => {
 
     }
@@ -35,6 +36,10 @@ export default function Login() {
                             <div><a className="link link-hover">Forgot password?</a></div>
                             <button className="btn btn-primary mt-4">Login</button>
                         </form>
+                        <div className="divider">or</div>
+                        <div>
+                         <h1>Don't have any account? <Link className="text-blue-500" to='/authLayout/signUp'>Sign up now</Link></h1>
+                        </div>
                     </div>
                 </div>
             </div>
