@@ -1,8 +1,9 @@
 import React from "react";
 import Logo from "../components/Logo/Logo";
 import { Link, NavLink } from "react-router";
-
+import useAuth from '../Hooks/useAuth'
 export default function Navbar() {
+    const { user, logOut } = useAuth()
     const links = [
         { path: '/', name: 'Home' },
         { path: '/coverage', name: 'Coverage' },
@@ -44,7 +45,12 @@ export default function Navbar() {
             </div>
 
             <div className="navbar-end">
-                <Link to='/authLayout/login' className="btn bg-primary text-white text-xl font-semibold">Login</Link>
+                {
+                    user ? <div className="flex items-center gap-4">
+                        <img className="w-10 h-10 rounded-full" src={user.photoURL} alt="user-img" />
+                        <button onClick={logOut} className="btn btn-primary">Logout</button>
+                    </div> : <Link to='/authLayout/login' className="btn bg-primary text-white text-xl font-semibold">Login</Link>
+                }
             </div>
         </div>
     );

@@ -1,11 +1,19 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import useAuth from "../Hooks/useAuth";
 
 export default function Login() {
+    const { loginUser } = useAuth()
+    const navigate = useNavigate()
+    const location = useLocation()
     const { register, handleSubmit } = useForm()
     const handleLoginForm = (data) => {
-
+        loginUser(data.email, data.password)
+            .then(result => {
+                console.log(result.user)
+                navigate(location?.pathname || '/')
+            })
     }
     return <div>
         <div className="hero  min-h-screen ">
@@ -38,7 +46,7 @@ export default function Login() {
                         </form>
                         <div className="divider">or</div>
                         <div>
-                         <h1>Don't have any account? <Link className="text-blue-500" to='/authLayout/signUp'>Sign up now</Link></h1>
+                            <h1>Don't have any account? <Link className="text-blue-500" to='/authLayout/signUp'>Sign up now</Link></h1>
                         </div>
                     </div>
                 </div>

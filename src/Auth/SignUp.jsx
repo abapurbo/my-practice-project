@@ -1,20 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import useAuth from "../Hooks/useAuth";
+import axios from "axios";
 
 export default function SignUp() {
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { createUser, userUpdate } = useAuth()
+    const navigate=useNavigate()
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    // hosting in imgbb
     const handleSignUpForm = (data) => {
         const profileImg = data.photo[0]
-        const formData = new FormData()
-        formData.append('image', profileImg)
+        //sign up user in firebase
+        createUser(data.email, data.password)
+            .then(res => {
+                console.log(res.user)
+                // store the image in form data
+                const formData = new FormData()
+                formData.append('image', profileImg)
 
-        // image hosting
-        const IMG_API_URL=`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_imag_api_key}`
+                //  send the photo to store and get the ul
+                const IMG_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_imag_api_key}`
+                axios.post(IMG_API_URL, formData)
+                    .then(res => {
+                        // update user profile to firebase
+                        const profile = {
+                            displayName: data.name,
+                            photoURL: res.data.data.url
+                        }
+                        console.log(profile)
+                        userUpdate(profile)
+                        navigate('/')
+                    })
+                    .catch(err => console.log(err))
 
-        
-        console.log(formData)
-        console.log(data)
+            })
+            .catch(error => console.log(error))
+
     }
     return <div>
         <div className="hero  min-h-screen ">
