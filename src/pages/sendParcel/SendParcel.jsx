@@ -2,29 +2,78 @@ import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import { useLoaderData } from "react-router";
-
+import Swal from "sweetalert2";
+import useAxiosSecure from '../../Hooks/useAxiosSecure'
 export default function SendParcel() {
     const { user } = useAuth();
     const serviceCenters = useLoaderData();
-
-    const { register, handleSubmit, control } = useForm();
+    const axiosSecure = useAxiosSecure()
+    const { register, handleSubmit, control, reset } = useForm();
     const regionsDuplicate = serviceCenters.map(c => c.region);
     const regions = [...new Set(regionsDuplicate)];
 
     // real time tack region
     const senderRegion = useWatch({ control, name: 'senderRegion' })
     const receiverRegion = useWatch({ control, name: 'receiverRegion' })
-
-
     const districtsByRegion = (region) => {
-        console.log(region)
         const regionsDistrict = serviceCenters.filter(c => c.region === region);
         const district = regionsDistrict.map(d => d.district);
         return district;
     };
-
     const handleSendParcel = (data) => {
-        console.log(data);
+        const isDocument = data.parcelType === 'document';
+        const isSameDistrict = data.senderDistrict === data.receiverDistrict;
+        // check a docuemnt type
+        let cost = 0;
+        if (isDocument) {
+            cost = isSameDistrict ? 60 : 80;
+        }
+        else {
+            if (data.parcelWeight <= 3) {
+                cost = isSameDistrict ? 110 : 150
+            }
+            else {
+                const minCharge = isSameDistrict ? 110 : 150;
+                const extraWeight = data.parcelWeight - 3;
+                const extraCharge = isSameDistrict ? extraWeight * 40 : extraWeight * 40 + 40;
+                cost = minCharge + extraCharge;
+            }
+        }
+        //if database added parcel info than server site return respons and sweet alert
+        data.cost=cost
+        Swal.fire({
+            title: "Agree with the Cost?",
+            text: `You will be charged ${cost} taka!`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "I agree!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // create a parcel info and added database 
+                axiosSecure.post('/parcels', data)
+                    .then(res => {
+                        console.log(res.data)
+                        if (res.data.insertedId) {
+                            Swal.fire({
+                                title: "Added Successfully in database",
+                                text: "Your send parcel info added!",
+                                icon: "success"
+                            });
+                            // reset send parcel data
+                            reset()
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+
+
+            }
+        });
+        console.log('cost', cost)
+
     };
 
     return (
@@ -100,6 +149,7 @@ export default function SendParcel() {
                             type="email"
                             {...register("senderEmail")}
                             className="input w-full"
+                            value={user?.email}
                             placeholder="Sender Email"
                         />
 

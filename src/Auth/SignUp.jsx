@@ -3,9 +3,10 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import useAuth from "../Hooks/useAuth";
 import axios from "axios";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignUp() {
-    const { createUser, userUpdate } = useAuth()
+    const { createUser, userUpdate,signInGoogle } = useAuth()
     const navigate=useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -38,6 +39,10 @@ export default function SignUp() {
             })
             .catch(error => console.log(error))
 
+    }
+    const handleGoogleProvider=()=>{
+        signInGoogle()
+        navigate('/')
     }
     return <div>
         <div className="hero  min-h-screen ">
@@ -91,6 +96,9 @@ export default function SignUp() {
                             <button className="btn btn-primary mt-4">Sign Up</button>
                         </form>
                         <div className="divider">or</div>
+                        <div>
+                            <button onClick={handleGoogleProvider} className="btn  w-full text-2xl"><FcGoogle /></button>
+                        </div>
                         <div>
                             <h1>Already have an account? <Link className="text-blue-500" to='/authLayout/login'>Login now</Link></h1>
                         </div>

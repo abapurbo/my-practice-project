@@ -7,6 +7,11 @@ import Login from "../Auth/Login";
 import SignUp from "../Auth/SignUp";
 import SendParcel from "../pages/sendParcel/SendParcel";
 import PrivateRoute from "../private/PrivateRoute";
+import DashboardLayout from "../Layouts/DashboardLayout/DashboardLayout";
+import MyParcels from "../pages/Dashboard/MyParcels";
+import Successful from "../pages/Dashboard/Successful";
+import Cancelled from "../pages/Dashboard/Cancelled";
+import Payment from "../pages/Dashboard/Payment";
 
 
 
@@ -44,6 +49,28 @@ const router = createBrowserRouter([
       {
         path: 'signUp',
         element: <SignUp />
+      }
+    ]
+  },
+  {
+    path:'/dashboard',
+    element:<DashboardLayout></DashboardLayout>,
+    children:[
+      {
+        path:'myParcels',
+        element:<MyParcels></MyParcels>
+      },{
+        path:'payment-success',
+        Component:Successful
+      },
+      {
+        path:'payment/:parcelId',
+        Component:Payment
+      },
+      {
+        path:'payment-cancelled',
+        Component:Cancelled
+
       }
     ]
   }

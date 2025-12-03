@@ -8,7 +8,8 @@ export default function Navbar() {
         { path: '/', name: 'Home' },
         { path: '/coverage', name: 'Coverage' },
         { path: '/about', name: 'About' },
-        { path: '/sendParcel', name: 'Send Parcel' }
+        { path: 'sendParcel', name: 'Send Parcel' },
+        { path: '/dashboard/myParcels', name: 'My Parcel' }
     ];
 
     return (
