@@ -1,12 +1,13 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from '../../Hooks/useAxiosSecure'
 export default function SendParcel() {
     const { user } = useAuth();
     const serviceCenters = useLoaderData();
+    const navigate=useNavigate()
     const axiosSecure = useAxiosSecure()
     const { register, handleSubmit, control, reset } = useForm();
     const regionsDuplicate = serviceCenters.map(c => c.region);
@@ -56,6 +57,7 @@ export default function SendParcel() {
                     .then(res => {
                         console.log(res.data)
                         if (res.data.insertedId) {
+                            navigate('/dashboard/myParcels')
                             Swal.fire({
                                 title: "Added Successfully in database",
                                 text: "Your send parcel info added!",
