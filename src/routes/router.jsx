@@ -13,6 +13,7 @@ import Successful from "../pages/Dashboard/Successful";
 import Cancelled from "../pages/Dashboard/Cancelled";
 import Payment from "../pages/Dashboard/Payment";
 import PaymentHistory from "../pages/Dashboard/PaymentHistory";
+import RiderSignup from "../pages/Rider/RiderSignup";
 
 
 
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
         element: <PrivateRoute>
           <SendParcel></SendParcel>
         </PrivateRoute >
+      }, {
+        path: 'rider',
+        loader:()=>fetch('/warehouses.json'),
+        Component: RiderSignup
       }
     ]
   },
@@ -54,28 +59,28 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path:'/dashboard',
-    element:<DashboardLayout></DashboardLayout>,
-    children:[
+    path: '/dashboard',
+    element: <DashboardLayout></DashboardLayout>,
+    children: [
       {
-        path:'myParcels',
-        element:<MyParcels></MyParcels>
-      },{
-        path:'payment-success',
-        Component:Successful
+        path: 'myParcels',
+        element: <MyParcels></MyParcels>
+      }, {
+        path: 'payment-success',
+        Component: Successful
       },
       {
-        path:'payment/:parcelId',
-        Component:Payment
+        path: 'payment/:parcelId',
+        Component: Payment
       },
       {
-        path:'payment-cancelled',
-        Component:Cancelled
+        path: 'payment-cancelled',
+        Component: Cancelled
 
       },
       {
-        path:'paymentHistory',
-        Component:PaymentHistory
+        path: 'paymentHistory',
+        Component: PaymentHistory
       }
     ]
   }

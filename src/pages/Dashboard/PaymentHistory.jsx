@@ -28,9 +28,8 @@ export default function PaymentHistory() {
                         <table className="w-full text-left text-sm">
                             <thead className="text-xs uppercase border-b">
                                 <tr>
-                                    <th className="px-6 py-4 font-semibold">Parcel Info</th>
-                                    <th className="px-6 py-4 font-semibold">Recipient Info</th>
-                                    <th className="px-6 py-4 font-semibold">Tracking Number</th>
+                                    <th className="px-6 py-4 font-semibold">Parcel Name</th>
+                                    <th className="px-6 py-4 font-semibold">Transaction Number</th>
                                     <th className="px-6 py-4 font-semibold">Payment Info</th>
                                     <th className="px-6 py-4 font-semibold">Action</th>
                                 </tr>
@@ -41,12 +40,8 @@ export default function PaymentHistory() {
                                 {/* Row 1 */}
                                 {
                                     paymentsHistory.map((payment, inx) => <tr key={inx} className="border-t">
+                                      
                                         <td className="px-6 py-4">{payment?.parcelName}</td>
-                                        <td className="px-6 py-4">
-                                            <p className="font-semibold">Shakil</p>
-                                            <p className="text-gray-600">Lalkhan Dighi, Panchagarh</p>
-                                            <p className="text-gray-600">01773689877</p>
-                                        </td>
                                         <td className="px-6 py-4">{payment?.transactionId}</td>
                                         <td className="px-6 py-4">${payment?.amount} ({payment?.paymentStatus})</td>
                                         <td className="px-6 py-4">

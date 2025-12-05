@@ -9,7 +9,8 @@ export default function Navbar() {
         { path: '/coverage', name: 'Coverage' },
         { path: '/about', name: 'About' },
         { path: 'sendParcel', name: 'Send Parcel' },
-        { path: '/dashboard/myParcels', name: 'My Parcel' }
+        { path: '/dashboard/myParcels', name: 'My Parcel' },
+        { path: '/rider', name: 'Be a Rider' }
     ];
 
     return (

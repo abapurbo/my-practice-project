@@ -4,12 +4,12 @@ import { Link, useNavigate } from "react-router";
 import useAuth from "../Hooks/useAuth";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
-
+import useAxiosSecure from '../Hooks/useAxiosSecure'
 export default function SignUp() {
-    const { createUser, userUpdate,signInGoogle } = useAuth()
-    const navigate=useNavigate()
+    const { createUser, userUpdate, signInGoogle } = useAuth()
+    const navigate = useNavigate()
+    const axiosSecure = useAxiosSecure()
     const { register, handleSubmit, formState: { errors } } = useForm();
-
     // hosting in imgbb
     const handleSignUpForm = (data) => {
         const profileImg = data.photo[0]
@@ -25,12 +25,25 @@ export default function SignUp() {
                 const IMG_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_imag_api_key}`
                 axios.post(IMG_API_URL, formData)
                     .then(res => {
+                        const userInfo = {
+                            email: data.email,
+                            displayName: data.name,
+                            photoURL: photoURL
+
+                        }
+                        axiosSecure.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log('user created in the database');
+                                }
+                            })
+
+
                         // update user profile to firebase
                         const profile = {
                             displayName: data.name,
                             photoURL: res.data.data.url
                         }
-                        console.log(profile)
                         userUpdate(profile)
                         navigate('/')
                     })
@@ -40,8 +53,28 @@ export default function SignUp() {
             .catch(error => console.log(error))
 
     }
-    const handleGoogleProvider=()=>{
+    const handleGoogleProvider = () => {
         signInGoogle()
+            .then(result => {
+
+
+                // create user in the database
+                const userInfo = {
+                    email: result.user.email,
+                    displayName: result.user.displayName,
+                    photoURL: result.user.photoURL
+                }
+
+                axiosSecure.post('/users', userInfo)
+                    .then(res => {
+                        console.log('user data has been stored', res.data)
+                        navigate(location.state || '/');
+                    })
+
+            })
+            .catch(error => {
+                console.log(error)
+            })
         navigate('/')
     }
     return <div>
